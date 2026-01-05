@@ -43,18 +43,18 @@ jobs:
       # CINTENT >> INSERT_CINTENT
       - uses: JavidDitty/setup-cintent@a606c80c34ec190c6a20dea33d6d58ddb6c4e0cc
 
-      - name: Cache MFA models
-        uses: actions/cache@v3
-        env:
-          cache-name: cache-mfa-models
-        with:
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
-            ${{ runner.os }}-build-
-            ${{ runner.os }}-
-          path: |
-            ~/Documents/MFA
+      # - name: Cache MFA models
+      #   uses: actions/cache@v3
+      #   env:
+      #     cache-name: cache-mfa-models
+      #   with:
+      #     key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+      #     restore-keys: |
+      #       ${{ runner.os }}-build-${{ env.cache-name }}-
+      #       ${{ runner.os }}-build-
+      #       ${{ runner.os }}-
+      #     path: |
+      #       ~/Documents/MFA
 
       - name: Setup Mambaforge
         uses: conda-incubator/setup-miniconda@v2
@@ -64,21 +64,21 @@ jobs:
           activate-environment: my-env
           use-mamba: true
           
-      - name: Set cache date
-        run: echo "DATE=$(date +'%Y%m%d')" >> $GITHUB_ENV
+      # - name: Set cache date
+      #   run: echo "DATE=$(date +'%Y%m%d')" >> $GITHUB_ENV
 
-      - uses: actions/cache@v3
-        with:
-          path: ${{ matrix.prefix }}
-          key: ${{ matrix.label }}-conda-${{ hashFiles('environment.yml') }}-${{ env.DATE }}-${{ env.CACHE_NUMBER }}
-        id: cache
+      # - uses: actions/cache@v3
+      #   with:
+      #     path: ${{ matrix.prefix }}
+      #     key: ${{ matrix.label }}-conda-${{ hashFiles('environment.yml') }}-${{ env.DATE }}-${{ env.CACHE_NUMBER }}
+      #   id: cache
 
       - name: Update environment
         run: mamba env update -n my-env -f environment.yml
-        if: steps.cache.outputs.cache-hit != 'true'
+        # if: steps.cache.outputs.cache-hit != 'true'
 
       - name: Run tests
-        shell: bash -l {0}
+        # shell: bash -l {0}
         run: pytest -x ./tests
 
       # CINTENT >> REMOVE_UPLOADS
